@@ -1,0 +1,14 @@
+.report_table
+{
+	border-spacing: 12px;
+}
+
+.report_present
+{
+	background: rgba(76, 175, 80, 0.6);
+}
+
+.report_absent
+{
+	background: rgba(232, 193, 203, 0.6);
+}
