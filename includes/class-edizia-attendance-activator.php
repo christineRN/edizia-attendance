@@ -37,14 +37,19 @@ class Edizia_Attendance_Activator
 	 {
 		global $wpdb;
 		
-		// here we need to verify that the plugin "The Events Calendar" is installed as this is specifically made to work with that plugin
-		// wp plugin is-installed
-		// wp plugin is-active
-		
 		// get the name of the attendance table for the plugin
 		$plugin = new Edizia_Attendance();
 		$plugin_admin = new Edizia_Attendance_Admin($plugin->get_edizia_attendance(), $plugin->get_version());
 
+		// This plugin only works if The Events Calendar plugin is installed and activated
+		if (!is_plugin_active('the-events-calendar/the-events-calendar.php'))
+		{
+			// The Events Calendar is not active - display a notice and don't activate this plugin
+			//$plugin_admin->required_plugin_not_active();
+			// ***** for some reason, this is not working properly - it creates an error but not the error I've asked it to create *****
+			return;
+		}
+		
 		$attendance_table = $plugin_admin->get_attendance_table_name();
 		
 		// create a new table in the database, called $attendance_name

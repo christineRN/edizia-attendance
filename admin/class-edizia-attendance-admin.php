@@ -197,11 +197,23 @@ class Edizia_Attendance_Admin
 		$this->delete_member_attendance_records($memberID);
 	}
 	
+	function required_plugin_not_active()
+	{
+		// error message to display when The Events Calendar plugin is not activated
+		printf("%s\n", "<div class='notice notice-error'><p>Please install and activate The Events Calendar - it is required for this plugin to work properly!</p></div>");
+	}
 	
 	// Display Functions
 	
 	function display_attendance_options_html($eventID = NULL) 
 	{
+		if (!is_plugin_active('the-events-calendar/the-events-calendar.php'))
+		{
+			// The Events Calendar plugin is not active so this plugin won't work
+			$this->required_plugin_not_active();
+			return;
+		}
+		
 		// the page that shows when the user clicks on the Attendance menu or submenu item
 		if ($eventID == NULL)
 		{
@@ -311,6 +323,13 @@ class Edizia_Attendance_Admin
 	
 	function display_report_options_html()
 	{
+		if (!is_plugin_active('the-events-calendar/the-events-calendar.php'))
+		{
+			// The Events Calendar plugin is not active so this plugin won't work
+			$this->required_plugin_not_active();
+			return;
+		}
+		
 		// page that shows when the user clicks on the Report submenu item
 		// form that will allow the user to specify category and dates for the report
 		$eventID = $_GET['eventID']; // there will be something here only if they came to this through an Edit Attendance link
