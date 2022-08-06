@@ -445,31 +445,34 @@ class Edizia_Attendance_Admin
 		{
 			$lineArray = array($member->display_name);
 			$arrayText = "";
-			// display their name
-			echo "<TR><TD>" . $member->display_name . "</TD>";
 			$memberID = $member->ID;
+			// display their avatar and name
+			echo "<TR><TD>" . get_avatar($memberID) . "<BR>" . $member->display_name . "</TD>";
 			foreach ($event_list as $event)
 			{
 				$eventID = $event->ID;
 				
 				// get the attendance record for this event and this member
 				$attended = $this->get_attendance_record($eventID, $memberID);
-				?>
-				<TD><CENTER>
-				<?php
 				// if this user was at the event
 				if ($attended)
 				{
 					// they were there so display a check mark
-					?><div class="report_present">&#10003;</div><?php
+					$glyph = "&#10003;";
+					$bgClass = "report_present";
 					$arrayText = "yes";
 				}
 				else
 				{
 					// they weren't there so display an X
-					?><div class ="report_absent">X</div><?php
+					$glyph = "X";
+					$bgClass = "report_absent";
 					$arrayText = "no";
 				}
+				?>
+				<TD class = <?=$bgClass?>><CENTER>
+				<?php
+				echo $glyph;
 				array_push($lineArray, $arrayText);
 				?>
 				</CENTER></TD>
@@ -513,14 +516,14 @@ class Edizia_Attendance_Admin
 			// for each member
 			foreach($member_list as $member)
 			{
-				// display their name
-				echo "<TR><TD>" . $member->display_name . "</TD>";
 				$memberID = $member->ID;
+				// display their avatar and name
+				echo "<TR><TD>" . get_avatar($memberID) . "<BR>" . $member->display_name . "</TD>";
 				// get the attendance record for this event and this member
 				$attended = $this->get_attendance_record($eventID, $memberID);
 				// name each checkbox with the $memberID of the current $member
 				?>
-				<TD><CENTER><input type = "checkbox" id = "<?php echo $memberID; ?>" name = "<?php echo $memberID; ?>" 
+				<TD><input type = "checkbox" id = "<?php echo $memberID; ?>" name = "<?php echo $memberID; ?>" 
 				<?php
 				// if this user was at the event
 				if ($attended)
@@ -534,7 +537,7 @@ class Edizia_Attendance_Admin
 					?><?php
 				}
 				?>
-				></CENTER></TD></TR>
+				></TD></TR>
 				<?php
 			}
 			// finish the form and table
