@@ -644,8 +644,9 @@ class Edizia_Attendance_Admin
 	
 	function get_member_list ()
 	{
-		// get the list of members and return it
-		$userList = get_users();
+		// get the list of members in ascending alphabetical order by display name and return it
+		$args = array('orderby' => 'display_name', 'order' => 'ASC');
+		$userList = get_users($args);
 		return $userList;
 	}
 	
