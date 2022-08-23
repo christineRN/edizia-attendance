@@ -512,6 +512,7 @@ class Edizia_Attendance_Admin
 			echo "<TH>$pretty_date</TH>";
 			?>
 			</TR>
+			<TR><TD></TD><TD><CENTER><input type = "submit" value = "Save"></CENTER></TD></TR>
 			<?php
 			// for each member
 			foreach($member_list as $member)
