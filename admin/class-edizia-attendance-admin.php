@@ -116,6 +116,8 @@ class Edizia_Attendance_Admin
 		// tell it to allow anyone with the role of $attendance_role_capability to see these menu items
 		add_menu_page('Attendance', 'Attendance', $this->attendance_role_capability, 'attendance', [$this, 'display_attendance_options_html'], 'dashicons-forms', 6);
 		add_submenu_page('attendance', 'Report', 'Report', $this->attendance_role_capability, 'report', [$this, 'display_report_options_html']);
+		// enable this when needing to repair the attendance table; otherwise, leave commented out
+		add_submenu_page('attendance', 'Repair', 'Repair', $this->attendance_role_capability, 'repair', [$this, 'repair_attendance_table']);
 	}
 		
 	function attendance_activate_admin_actions()
@@ -201,6 +203,17 @@ class Edizia_Attendance_Admin
 	{
 		// error message to display when The Events Calendar plugin is not activated
 		printf("%s\n", "<div class='notice notice-error'><p>Please install and activate The Events Calendar - it is required for this plugin to work properly!</p></div>");
+	}
+	
+	function repair_attendance_table()
+	{
+		// used to ensure all users have attendance records in the attendance table for all events
+		$all_users = get_users();
+		foreach ($all_users as $user)
+		{
+			$userID = $user->ID;
+			$this->new_user_create_attendance_records($userID);
+		}
 	}
 	
 	// Display Functions
@@ -608,6 +621,10 @@ class Edizia_Attendance_Admin
 		else
 		{
 			$args = array();
+			
+			// set number of events to see; if this isn't set, it defaults to Events->Settings->Number of events to show per page
+			$args += ['posts_per_page' => -1]; // -1 indicates all events
+			
 			// $displayStarting, $displayThrough, and $categoryID may all have values in them
 			if ($displayStarting != NULL)
 			{
