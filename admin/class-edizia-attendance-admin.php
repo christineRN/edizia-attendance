@@ -117,7 +117,7 @@ class Edizia_Attendance_Admin
 		add_menu_page('Attendance', 'Attendance', $this->attendance_role_capability, 'attendance', [$this, 'display_attendance_options_html'], 'dashicons-forms', 6);
 		add_submenu_page('attendance', 'Report', 'Report', $this->attendance_role_capability, 'report', [$this, 'display_report_options_html']);
 		// enable this when needing to repair the attendance table; otherwise, leave commented out
-		add_submenu_page('attendance', 'Repair', 'Repair', $this->attendance_role_capability, 'repair', [$this, 'repair_attendance_table']);
+		//add_submenu_page('attendance', 'Repair', 'Repair', $this->attendance_role_capability, 'repair', [$this, 'repair_attendance_table']);
 	}
 		
 	function attendance_activate_admin_actions()
